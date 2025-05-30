@@ -1,0 +1,62 @@
+<!-- templates/item_selector.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Recommendations - Shop Owner's Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 2rem;
+        }
+        .container {
+            max-width: 800px;
+        }
+        .header {
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #e5e5e5;
+            padding-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Product Recommendations</h1>
+            <p class="lead">Select a product to see what you should recommend to customers who buy it</p>
+        </div>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-warning">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="card">
+            <div class="card-header">
+                <h4>Select a Product</h4>
+            </div>
+            <div class="card-body">
+                <form action="{{ url_for('item_recommendations') }}" method="POST">
+                    <div class="mb-3">
+                        <label for="selected_item" class="form-label">Product</label>
+                        <select class="form-select" id="selected_item" name="selected_item" required>
+                            <option value="" selected disabled>Select a product</option>
+                            {% for item in items %}
+                                <option value="{{ item }}">{{ item }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Get Recommendations</button>
+                    <a href="{{ url_for('results') }}" class="btn btn-secondary">Back to Results</a>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
